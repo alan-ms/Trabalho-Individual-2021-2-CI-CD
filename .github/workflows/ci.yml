@@ -1,0 +1,24 @@
+name: "CI"
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+defaults:
+  run:
+    working-directory: ./aplicacao
+jobs:
+  build:
+    name: "Execução da build do projeto"
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+      - name: Run docker
+        run: docker-compose up --build -d
+      - name: Create database tables
+        run: docker-compose run app rails db:create
+      - name: Create database migrations
+        run: docker-compose run app rails db:migrate
+      - name: Create database seeds
+        run: docker-compose run app rails db:seed
