@@ -30,4 +30,16 @@ services:
       - .:/aplicacao
     networks:
       development:
-  
+  nginx:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.nginx
+    container_name: nginx
+    ports:
+      - 80:80
+    depends_on:
+      - app
+    volumes:
+      - .:/aplicacao
+    links:
+      - app
