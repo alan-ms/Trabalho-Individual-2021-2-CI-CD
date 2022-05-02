@@ -16,9 +16,3 @@ jobs:
         uses: actions/checkout@v3
       - name: Run docker
         run: docker-compose up --build -d
-      - name: Create database tables
-        run: docker-compose run app rails db:create
-      - name: Create database migrations
-        run: docker-compose run app rails db:migrate
-      - name: Create database seeds
-        run: docker-compose run app rails db:seed
