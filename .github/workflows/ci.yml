@@ -19,7 +19,7 @@ jobs:
       - name: Build App
         run: docker-compose up --build -d
 
-  docker-test:
+  test:
     name: Test
     runs-on: ubuntu-latest
     steps:
@@ -30,7 +30,7 @@ jobs:
         run: docker-compose run app rspec
 
   lint:
-    name: Run Lint
+    name: Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
