@@ -1,4 +1,4 @@
-name: "CI"
+name: "ci"
 on:
   push:
     branches: [ main ]
@@ -9,7 +9,7 @@ defaults:
     working-directory: ./aplicacao
 jobs:
   build:
-    name: "Execução da build do projeto"
+    name: "build"
     runs-on: ubuntu-latest
     steps:
       - name: checkout code
@@ -17,12 +17,24 @@ jobs:
       - name: Run docker
         run: docker-compose up --build -d
   test:
-      name: "Execução dos testes"
-      runs-on: ubuntu-latest
-      steps:
-        - name: checkout code
-          uses: actions/checkout@v3
-        - name: reset database
-          run: docker-compose run app rake db:reset
-        - name: Run tests
-          run: docker-compose run app rspec
+    name: "test"
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+      - name: reset database
+        run: docker-compose run app rake db:reset
+      - name: Run tests
+        run: docker-compose run app rspec
+  lint:
+    name: "list"
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3
+      - name: Set up Ruby 3.0.0
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0.0
+      - name: Run rubocop
+        run: docker-compose run app bash -c "gem install rubocop; rubocop -l --fail-level F"
